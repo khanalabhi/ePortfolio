@@ -4,8 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const marketRouter = require('./routes/market');
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -32,8 +31,8 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
       next();
     });
 
-    app.use('/', indexRouter);
-    app.use('/users', usersRouter);
+    // register the market router
+    app.use('/market', marketRouter);
 
     // catch 404 and forward to error handler
     app.use(function (req, res, next) {
