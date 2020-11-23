@@ -16,17 +16,15 @@ const users = {
  * @param {*} callback to receive error or user object
  */
 const logIn = function (username, password, callback) {
-    bcrypt.hash(password, salt, function (err, hash) {
-        if (err) {
-            callback(err, null);
-        } else {
-            if (users[username] && users[username][hash] == hash) {
-                callback(null, users[username]);
-            } else {
-                callback({ message: "invalid username or password" }, null);
-            }
-        }
-    });
+    let same = false;
+    if (users[username]) {
+        same = bcrypt.compareSync(password, users[username].hash);
+    }
+    if (same) {
+        callback(null, users[username]);
+    } else {
+        callback({ message: 'invalid username or password' });
+    }
 }
 
 /**
@@ -63,7 +61,19 @@ const authorized = function (username, password, callback) {
     });
 }
 
+/**
+ * Extract the username and password from the request
+ * @param {*} request from the client
+ */
+const extractInfo = function (request) {
+    return {
+        username: request.body.username,
+        password: request.body.password,
+    }
+}
+
 module.exports = {
     authenticated: authenticated,
     authorized: authorized,
+    extractInfo: extractInfo,
 }

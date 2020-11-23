@@ -3,9 +3,15 @@ var router = express.Router();
 const repository = require('../repositories/market.repository');
 const authService = require('../services/auth.service');
 
-router.get('/create', function (req, res, next) {
-    repository.createDocument(req.db, null, function (err, doc) {
-        res.render('index', { title: 'market#create' });
+router.post('/create', function (req, res, next) {
+    const credentials = authService.extractInfo(req);
+    authService.authenticated(credentials.username, credentials.password, function (user) {
+        if (!user) {
+            res.status(403);
+            res.send({});
+        } else {
+            res.render('index', { title: 'market#create' });
+        }
     });
 });
 
