@@ -20,11 +20,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+let clientRef = null;
+
 MongoClient.connect('mongodb://localhost:27017', function (err, client) {
   if (err) {
     console.error(err);
   } else {
-
+    clientRef = client;
     // register a middleware to attach db connection to the request
     app.use(function (req, res, next) {
       req.db = client.db('market');
@@ -50,6 +52,14 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
       res.render('error');
     });
   }
+});
+
+process.on('SIGINT', function () {
+  if (clientRef) {
+    console.log('closing mongo client...');
+    clientRef.close();
+  }
+  process.exit();
 });
 
 module.exports = app;
