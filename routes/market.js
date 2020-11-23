@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const repository = require('../repositories/market.repository');
+const authService = require('../services/auth.service');
 
 router.get('/create', function (req, res, next) {
     repository.createDocument(req.db, null, function (err, doc) {
