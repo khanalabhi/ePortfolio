@@ -1,37 +1,14 @@
-## Welcome to GitHub Pages
+Stock-Market
+============
 
-You can use the [editor on GitHub](https://github.com/khanalabhi/stock-market/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### About
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The stock-market project is a NodeJS web application that listens to clients for http requests and processes them to query or modify stock market data that is available in the database. The database used in this application is MongoDB. The framework used for this web application is ExpressJs.
 
-### Markdown
+### Running the application
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+One of the main external dependencies of this web application is a connection to a MongoDB database. The first iteration of this web application currently assumes that localhost:27017 offers connection to MongoDB. This will be enhanced in later versions to rely upon command line arguments or environmental variables as needed.
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/khanalabhi/stock-market/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Assuming this dependency is met, here are the general steps to get the web application up and running:
+- `npm i` # install the node dependencies
+- `npm start` # start the web application and listen to the default port of 3000
