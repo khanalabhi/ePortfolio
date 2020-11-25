@@ -6,7 +6,9 @@
  * @param {*} callback 
  */
 const createDocument = function (db, data, callback) {
-    callback(null, null);
+    db.collection('stock').insertOne(data, function (err, res) {
+        callback(err, res);
+    });
 };
 
 /**

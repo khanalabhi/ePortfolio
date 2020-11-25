@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+  if createdStock
+    div
+      h3 Stock Data Added: 
+      div.pre= createdStock
+    hr
+
+  p Create a new entry in the stock market
+  form(action="/market/create", method="post")
+    div.input
+      span.label Username: 
+      input(type="text", name="username")
+    div.input
+      span.label Password: 
+      input(type="password", name="password")
+    div.input
+      span.label Stock Data: 
+      textarea(name="stock_data", cols="40", rows="5")
+    div.actions
+      input(type="submit", value="Add")

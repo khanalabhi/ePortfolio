@@ -3,14 +3,37 @@ var router = express.Router();
 const repository = require('../repositories/market.repository');
 const authService = require('../services/auth.service');
 
+const renderBadRequest = function (res) {
+    res.status(400);
+    res.render('error', { message: 'Bad Request', error: { status: 400 } });
+}
+
+router.get('/create', function (req, res, next) {
+    res.render('market_create');
+});
+
 router.post('/create', function (req, res, next) {
     const credentials = authService.extractInfo(req);
     authService.authenticated(credentials.username, credentials.password, function (user) {
         if (!user) {
-            res.status(403);
-            res.send({});
+            authService.renderUnauthorized(res);
         } else {
-            res.render('index', { title: 'market#create' });
+            if (!user.admin) {
+                authService.renderProhibited(res);
+            } else {
+                let stockData = JSON.parse(req.body.stock_data);
+                if (stockData) {
+                    repository.createDocument(req.db, stockData, function (err, doc) {
+                        if (err) {
+                            renderBadRequest(res);
+                        } else {
+                            res.render('market_create', { createdStock: JSON.stringify(doc['ops'][0]) });
+                        }
+                    });
+                } else {
+                    renderBadRequest(res);
+                }
+            }
         }
     });
 });

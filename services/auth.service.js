@@ -72,8 +72,28 @@ const extractInfo = function (request) {
     }
 }
 
+/**
+ * Render unauthorized template
+ * @param {*} res 
+ */
+const renderUnauthorized = function (res) {
+    res.status(401);
+    res.render('error', { message: 'Unauthorized', 'error': { status: 401 } });
+}
+
+/**
+ * Render prohibited template
+ * @param {*} res 
+ */
+const renderProhibited = function (res) {
+    res.status(403);
+    res.render('error', { message: 'Forbidden', 'error': { status: 403 } });
+}
+
 module.exports = {
     authenticated: authenticated,
     authorized: authorized,
     extractInfo: extractInfo,
+    renderUnauthorized: renderUnauthorized,
+    renderProhibited: renderProhibited,
 }
