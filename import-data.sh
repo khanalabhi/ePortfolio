@@ -1,0 +1,1 @@
+mongoimport --db market --collection stock ./stocks.json
