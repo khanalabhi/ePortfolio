@@ -19,7 +19,9 @@ const createDocument = function (db, data, callback) {
  * @param {*} callback 
  */
 const readDocument = function (db, lookup, callback) {
-    callback(null, null);
+    db.collection('stock').findOne(lookup, function (err, doc) {
+        callback(err, doc);
+    });
 }
 
 /**

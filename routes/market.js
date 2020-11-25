@@ -1,11 +1,25 @@
+const { json } = require('express');
 var express = require('express');
 var router = express.Router();
 const repository = require('../repositories/market.repository');
 const authService = require('../services/auth.service');
+const ObjectId = require('mongodb').ObjectId;
 
 const renderBadRequest = function (res) {
     res.status(400);
     res.render('error', { message: 'Bad Request', error: { status: 400 } });
+}
+
+const displayStock = function (db, id, res) {
+    console.log(id);
+    repository.readDocument(db, { _id: ObjectId(id) }, function (err, doc) {
+        console.log(doc);
+        if (err) {
+            renderBadRequest(res);
+        } else {
+            res.render('market_view', { createdStock: JSON.stringify(doc) });
+        }
+    });
 }
 
 router.get('/create', function (req, res, next) {
@@ -27,7 +41,7 @@ router.post('/create', function (req, res, next) {
                         if (err) {
                             renderBadRequest(res);
                         } else {
-                            res.render('market_create', { createdStock: JSON.stringify(doc['ops'][0]) });
+                            displayStock(req.db, doc['ops'][0]['_id'], res);
                         }
                     });
                 } else {

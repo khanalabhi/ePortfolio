@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h2 Market View
+
+  if createdStock
+    div
+      h3 Stock Data: 
+      div.pre= createdStock
+    hr
