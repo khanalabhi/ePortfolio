@@ -76,7 +76,9 @@ const updateDocument = function (db, lookup, data, callback) {
  * @param {*} callback 
  */
 const updateVolume = function (db, ticker, volume, callback) {
-    callback(null, null);
+    db.collection('stock').updateOne({ "Ticker": ticker }, { "$set": { "Relative Volume": volume } }, function (err, res) {
+        callback(err, res);
+    });
 }
 
 /**

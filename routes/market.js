@@ -53,8 +53,23 @@ router.post('/create', function (req, res, next) {
 });
 
 router.get('/update_volume', function (req, res, next) {
-    repository.updateVolume(req.db, null, null, function (err, doc) {
-        res.render('index', { title: 'market#update_volume' });
+    res.render('update_volume');
+});
+
+router.post('/update_volume', function (req, res, next) {
+    const credentials = authService.extractInfo(req);
+    authService.authenticated(credentials.username, credentials.password, function (user) {
+        if (!user) {
+            authService.renderUnauthorized(res);
+        } else {
+            if (!user.admin) {
+                authService.renderProhibited(res);
+            } else {
+                repository.updateVolume(req.db, req.body.ticker, req.body.volume, function (err, doc) {
+                    res.render('update_volume', { err: err, doc: doc });
+                });
+            }
+        }
     });
 });
 
