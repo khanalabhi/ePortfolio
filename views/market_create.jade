@@ -9,15 +9,16 @@ block content
     hr
 
   p Create a new entry in the stock market
-  form(action="/market/create", method="post")
+  form.subtle(action="/market/create", method="post")
     div.input
-      span.label Username: 
-      input(type="text", name="username")
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username")
     div.input
-      span.label Password: 
-      input(type="password", name="password")
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password")
     div.input
-      span.label Stock Data: 
-      textarea(name="stock_data", cols="40", rows="5")
+      span.label.input-label Stock Data: 
+      textarea.standard-input(name="stock_data", cols="40", rows="5")
+    br
     div.actions
-      input(type="submit", value="Add")
+      input.standard-input(type="submit", value="Add")

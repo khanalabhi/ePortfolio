@@ -3,6 +3,52 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+ul {
+  display: flex;
+  background-color: #00B7FF;
+  color: grey;
+  align-content: space-around;
+  list-style: none;
+  justify-content: start;
+}
+
+li {
+  flex-direction: row;
+  text-transform: uppercase;
+  padding: 10px 0px;
+}
+
 a {
-  color: #00B7FF;
+  margin: 10px;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.jumbo {
+  background-color: #eeeeee;
+  padding: 20px;
+  text-transform: uppercase;
+  font-size: xx-large;
+}
+
+.subtle {
+  padding: 10px;
+  background-color: #eeeeee;
+  width: 50%;
+  margin: auto;
+}
+
+.standard-input {
+  display: block;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.input-label {
+  display: block;
+  padding: 10px;
 }
