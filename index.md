@@ -20,9 +20,7 @@ The artifact used in this ePortfolio was obtained from a project in one of my cl
 [![Watch the video](https://img.youtube.com/vi/hMCQJC65fUY/maxresdefault.jpg)](https://youtu.be/hMCQJC65fUY)
 
 ## Artifact Updates
-
 ### Software design and Engineering.
-
 This artifact was selected – specifically for the software design and engineering part of the capstone to highlight my ability to port a complex application to a new programming language. From a software design and engineering perspective, the artifact was improved by using the DeFacto programming language of the web – JavaScript instead of python. Some added benefits of this would be the ability to further enhance the ecosystem by using a complete JavaScript based stack such as MongoDB Express Angular NodeJS [MEAN], or MongoDB Express React NodeJS [MERN]. 
 
 #### Alignment with Course Objective.
