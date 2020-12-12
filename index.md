@@ -35,4 +35,37 @@ The enhancement and modification of the artifact was a rather rewarding process.
 
 There were, however, a few challenges that were eventually overcome: 
 - [X] Connecting to the database was relatively easy. However, the use of callback functions made it difficult to port the imperative style code in python to the callback driven approach on NodeJS. 
-- [X] The first structure of the project took a little bit of getting used to compared to the two files that I wrote by myself in python. The huge benefit of being able to navigate the project, however, is that it is a standard that most ExpressJS developers follow – making it easier for me to adapt to industry standard code. 
+- [X] The first structure of the project took a little bit of getting used to compared to the two files that I wrote by myself in python. The huge benefit of being able to navigate the project, however, is that it is a standard that most ExpressJS developers follow – making it easier for me to adapt to industry standard code like shown below.
+```JavaScript
+MongoClient.connect('mongodb://localhost:27017', function (err, client) {
+  if (err) {
+    console.error(err);
+  } else {
+    clientRef = client;
+    // register a middleware to attach db connection to the request
+    app.use(function (req, res, next) {
+      req.db = client.db('market');
+      next();
+    });
+
+    // register the market router
+    app.use('/market', marketRouter);
+
+    // catch 404 and forward to error handler
+    app.use(function (req, res, next) {
+      next(createError(404));
+    });
+
+    // error handler
+    app.use(function (err, req, res, next) {
+      // set locals, only providing error in development
+      res.locals.message = err.message;
+      res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+      // render the error page
+      res.status(err.status || 500);
+      res.render('error');
+    });
+  }
+});
+```
