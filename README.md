@@ -9,3 +9,8 @@ One of the main external dependencies of this web application is a connection to
 Assuming this dependency is met, here are the general steps to get the web application up and running:
 - `npm i` # install the node dependencies
 - `npm start` # start the web application and listen to the default port of 3000
+- `http://localhost:3000/market/top_five_stocks`
+
+Hardcode user accounts:
+- `regular` `regularpassword`
+- `admin` `adminpassword`

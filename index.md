@@ -1,6 +1,8 @@
 ePortfolio
 ============
 
+![Abhi Khanal](photo.jpeg)
+
 ## Professional Self Assesment
 
 After completing high school, I had started down the path of electrical engineering. Having always been interested in electronics and computers, I was very much interested in studying electrical engineering. After getting my associates degree in electrical engineering, however, I realized how much I enjoyed programming.  
