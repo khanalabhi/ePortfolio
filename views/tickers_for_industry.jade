@@ -1,0 +1,22 @@
+extends layout
+
+block content
+
+  p Get Tickers for Industry
+  form.subtle(action="/market/tickers_for_industry", method="post")
+    div.input
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username", value="regular")
+    div.input
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password", value="regularpassword")
+    div.input
+      span.label.input-label Industry: 
+      input.standard-input(type="text" name="industry", value="Medical Laboratories & Research")
+    div.actions
+      input.standard-input(type="submit", value="Query")
+
+  if tickers
+    ol
+      each ticker in tickers
+        li= ticker

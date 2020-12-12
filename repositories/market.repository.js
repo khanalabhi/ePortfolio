@@ -48,7 +48,11 @@ const getSimpleMovingAverageCount = function (db, low, high, callback) {
  * @param {*} callback 
  */
 const getTickersForIndustry = function (db, industry, callback) {
-    callback(null, null);
+    db.collection('stock').find({ 'Industry': { '$eq': industry } }, { '_id': 0, 'Ticker': 1 }).toArray(function (err, docs) {
+        callback(err, docs.map(function (doc) {
+            return doc['Ticker'];
+        }));
+    });
 }
 
 /**

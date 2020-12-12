@@ -102,8 +102,18 @@ router.get('/moving_average_count', function (req, res, next) {
 });
 
 router.get('/tickers_for_industry', function (req, res, next) {
-    repository.getTickersForIndustry(req.db, null, function (err, doc) {
-        res.render('index', { title: 'market#tickers_for_industry' });
+    res.render('tickers_for_industry');
+});
+
+router.post('/tickers_for_industry', function (req, res, next) {
+    authService.preventUnauthorized(req, res, function (_) {
+        repository.getTickersForIndustry(req.db, req.body.industry, function (err, tickers) {
+            if (err) {
+                res.render('tickers_for_industry', { flash: { failure: true, message: 'Failed to get tickers' } });
+                return;
+            }
+            res.render('tickers_for_industry', { flash: { success: true, message: `Successfully retrieved ${tickers.length} tickers` }, tickers: tickers });
+        });
     });
 });
 
