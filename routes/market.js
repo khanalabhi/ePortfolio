@@ -71,7 +71,7 @@ router.post('/update_volume', function (req, res, next) {
 
 router.post('/delete', function (req, res, next) {
     authService.preventForbidden(req, res, function (_) {
-        repository.deleteDocument(req.db, null, function (err, doc) {
+        repository.deleteTicker(req.db, req.body.ticker, function (err, doc) {
             if (err) {
                 res.render('delete', { flash: { failure: true, message: 'Could not delete stock' } });
             } else {
@@ -82,7 +82,7 @@ router.post('/delete', function (req, res, next) {
 });
 
 router.get('/delete', function (req, res, next) {
-    res.render('delete', { flash: { failure: true, message: 'Could not delete stock' } });
+    res.render('delete');
 });
 
 router.get('/moving_average_count', function (req, res, next) {

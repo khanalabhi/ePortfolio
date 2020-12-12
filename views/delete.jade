@@ -1,0 +1,19 @@
+extends layout
+
+block content
+
+  p Delete a stock
+  form.subtle(action="/market/delete", method="post")
+    div.input
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username")
+    div.input
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password")
+      br
+    div.input
+      span.label.input-label Ticker Symbol: 
+      input.standard-input(type="text", name="ticker")
+    br
+    div.actions
+      input.standard-input(type="submit", value="Update")

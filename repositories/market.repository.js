@@ -65,7 +65,13 @@ const getSharesByIndustry = function (db, sector, callback) {
  * @param {*} callback 
  */
 const updateDocument = function (db, lookup, data, callback) {
-    callback(null, null);
+    db.collection('stock').updateOne(lookup, { "$set": data }, function (err, res) {
+        if (!err && res.modifiedCount == 0) {
+            callback({ message: 'ticker not found' }, null);
+            return;
+        }
+        callback(err, res);
+    });
 }
 
 /**
@@ -78,14 +84,9 @@ const updateDocument = function (db, lookup, data, callback) {
 const updateVolume = function (db, ticker, volume, callback) {
     if (!volume || volume < 1) {
         callback({ message: 'invalid volume' });
+        return;
     }
-    db.collection('stock').updateOne({ "Ticker": ticker }, { "$set": { "Relative Volume": volume } }, function (err, res) {
-        if (!err && res.modifiedCount == 0) {
-            callback({ message: 'ticker not found' }, null);
-            return;
-        }
-        callback(err, res);
-    });
+    updateDocument(db, { "Ticker": ticker }, { "Relative Volume": volume }, callback);
 }
 
 /**
@@ -95,7 +96,13 @@ const updateVolume = function (db, ticker, volume, callback) {
  * @param {*} callback 
  */
 const deleteDocument = function (db, lookup, callback) {
-    callback(null, null);
+    db.collection('stock').deleteOne(lookup, function (err, res) {
+        if (!err && res.result.n == 0) {
+            callback({ message: 'document not found' });
+            return;
+        }
+        callback(err, res);
+    });
 }
 
 /**
@@ -105,7 +112,7 @@ const deleteDocument = function (db, lookup, callback) {
  * @param {*} callback 
  */
 const deleteTicker = function (db, ticker, callback) {
-    callback(null, null);
+    deleteDocument(db, { Ticker: ticker }, callback);
 }
 
 /**
