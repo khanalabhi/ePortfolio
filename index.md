@@ -121,5 +121,8 @@ There were a few challenges as well. Specifically, around not overdoing what I h
 Here are some samples from the artifact!
 
 ![Top Five Stocks](assets/top_five_stocks.png)
-![Delete](assets/delete_stock.png)
+#### Top Five Stocks
+![Delete Stock](assets/delete_stock.png)
+#### Delete Stock
 ![Forbidden](assets/forbidden.png)
+#### Forbidden
