@@ -70,3 +70,28 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
   }
 });
 ```
+
+### Algorithm and Data Structure.
+This artifact was selected – specifically for the algorithm and data structure part of the capstone to display my ability to add increased complexity to a software in an iterative manner. From an algorithm and data structure perspective, the artifact was improved by adding authentication to authenticate the client making the request to the server. Furthermore, certain restricted requests that change the database have an added layer of authorization that kicks in on top of the authentication layer. Beyond these major goals, the identified improvements during the code review such as closing the database connection when the webserver closes were also added to the artifact. 
+
+#### Alignment with Course Objective.
+Specifically, the course goal of “Design and evaluate computing solutions that solve a given problem using algorithmic principles and computer science practices and standards appropriate to its solution, while managing the trade-offs involved in design choices” will be showed with the changes to the artifact. 
+
+#### Enhancing and Modifying the Artifact.
+
+The first thing that I did was research authentication and authorization. While I had a decent idea of what needed to be done, I wanted to find some examples of this flow. Since NodeJS is a mature framework at this point, I was able to find one PassportJS library to help with authentication. Not only would it help with local accounts restricted to the webapp, but it would even allow oauth – connecting to third party services like google, Facebook, etc. For authentication on NodeJS. The following are some of the major updates of the modification and enhancement. 
+
+- [x] Implement a custom authentication and authorization system
+- [x] Stub the authentication with hardcoded accounts so that it runs with empty database
+- [x] Even though the password is hardcoded, incorporate hashing to avoid storing cleartext password
+- [x] Close db connection when the application ends
+```js
+process.on('SIGINT', function () {
+  if (clientRef) {
+    console.log('closing mongo client...');
+    clientRef.close();
+  }
+  process.exit();
+});
+```
+- [] In a production environment use TLS for security
