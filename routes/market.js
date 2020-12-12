@@ -5,9 +5,9 @@ const repository = require('../repositories/market.repository');
 const authService = require('../services/auth.service');
 const ObjectId = require('mongodb').ObjectId;
 
-const renderBadRequest = function (res) {
+const renderBadRequest = function (res, message) {
     res.status(400);
-    res.render('error', { message: 'Bad Request', error: { status: 400 } });
+    res.render('error', { flash: { failure: true, message: message }, message: 'Bad Request', error: { status: 400 } });
 }
 
 const displayStock = function (db, id, res) {
@@ -15,7 +15,7 @@ const displayStock = function (db, id, res) {
     repository.readDocument(db, { _id: ObjectId(id) }, function (err, doc) {
         console.log(doc);
         if (err) {
-            renderBadRequest(res);
+            renderBadRequest(res, 'Could not display the stock');
         } else {
             res.render('market_view', { flash: { success: true, message: 'Created a new stock entry' }, createdStock: JSON.stringify(doc) });
         }
@@ -35,11 +35,16 @@ router.post('/create', function (req, res, next) {
             if (!user.admin) {
                 authService.renderProhibited(res);
             } else {
-                let stockData = JSON.parse(req.body.stock_data);
+                try {
+                    let stockData = JSON.parse(req.body.stock_data);
+                } catch (_) {
+                    renderBadRequest(res, 'Invalid JSON formatting for stock data');
+                    return;
+                }
                 if (stockData) {
                     repository.createDocument(req.db, stockData, function (err, doc) {
                         if (err) {
-                            renderBadRequest(res);
+                            renderBadRequest(res, 'Could not create the stock');
                         } else {
                             displayStock(req.db, doc['ops'][0]['_id'], res);
                         }
@@ -66,7 +71,15 @@ router.post('/update_volume', function (req, res, next) {
                 authService.renderProhibited(res);
             } else {
                 repository.updateVolume(req.db, req.body.ticker, req.body.volume, function (err, doc) {
-                    res.render('update_volume', { err: err, doc: doc });
+                    let flash = {};
+                    if (err) {
+                        flash.failure = true;
+                        flash.message = 'Failed to update volume';
+                    } else {
+                        flash.success = true;
+                        flash.message = 'Updated the volume';
+                    }
+                    res.render('update_volume', { err: err, flash: flash });
                 });
             }
         }

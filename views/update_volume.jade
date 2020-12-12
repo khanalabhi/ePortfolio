@@ -2,16 +2,6 @@ extends layout
 
 block content
 
-  if err
-    div
-      h3 Error updating Relative Volume
-    hr
-
-  if doc
-    div
-      h3 Updated Relative Volume
-    hr
-
   p Upate the relative volume of a ticker
   form.subtle(action="/market/update_volume", method="post")
     div.input

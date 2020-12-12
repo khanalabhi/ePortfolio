@@ -76,7 +76,14 @@ const updateDocument = function (db, lookup, data, callback) {
  * @param {*} callback 
  */
 const updateVolume = function (db, ticker, volume, callback) {
+    if (!volume || volume < 1) {
+        callback({ message: 'invalid volume' });
+    }
     db.collection('stock').updateOne({ "Ticker": ticker }, { "$set": { "Relative Volume": volume } }, function (err, res) {
+        if (!err && res.modifiedCount == 0) {
+            callback({ message: 'ticker not found' }, null);
+            return;
+        }
         callback(err, res);
     });
 }
