@@ -9,7 +9,7 @@ Some of the most enjoyable classes I took while working towards my electrical en
 
 Beyond the fundamentals of computer science, I have had the opportunity to work with a lot of amazing colleagues throughout my coursework. We learned to collaborate using GitHub and I have become very comfortable with using git-based version control system. Having performed code reviews as well as addressed pull requests from my peers, both in the professional setting as well as the educational one – I feel prepared to be able to apply this at a much higher level. As perhaps this report shows everyone, I have developed the skill set to interact with various stakeholders at different levels of technical experience as well. Finally, my deep understanding of the various dimensions of software development such as software engineering, algorithm and data structures, databases and security are portrayed well by the updates I have made to the artifact presented along with this report. 
 
-The specifics of how I have shown my understanding on each of the topic were explained at great depths above. At a higher level, I wanted to choose a single artifact to display another ability I have – the ability to support software and not just create new pieces of software to highlight a particular skill set. As I have shown from the artifact, I have a good understanding of software engineering principles. Looking at the commit history of my artifact in the link supplied above – a modular and iterative process can be seen. I have also mentioned various enhancements that I would have liked to make. However, prioritization within the given time led to a polished artifact that holds enhancements I valued the most. All of this happened with collaborations of my professor – who mimicked a product owner in a professional setting. 
+The specifics of how I have shown my understanding on each of the topic are explained at great depths bleow. At a higher level, I wanted to choose a single artifact to display another ability I have – the ability to support software and not just create new pieces of software to highlight a particular skill set. As I have shown from the artifact, I have a good understanding of software engineering principles. Looking at the commit history of my artifact in the link supplied above – a modular and iterative process can be seen. I will also mention various enhancements that I would have liked to make. However, prioritization within the given time led to a polished artifact that holds enhancements I valued the most. All of this happened with collaborations of my professor – who mimicked a product owner in a professional setting. 
 
 As far as algorithm and data structures are concerned, enhancements were made to the queries to me memory efficient. Instead of holding reference to all the columns from a database, for example, until rendering for the user – a projection is used to only keep the columns that are necessary. Similarly, connection for input output is closed when no longer needed – which can feel like a trivial oversight at first but can have big implications in production environment serving thousands of clients. Next, the database enhancements including but not limited to adding a user interface shows my ability to integrate industry standard solutions to supply a better customer experience. While the command line application would have sufficed, a basic expectation in the modern computing is to have a graphical user interface. Finally, to prove my understanding of security, I implemented an authentication and authorization system from scratch. Moreover, cleartext passwords were hashed as seen in the artifact instead of using them in a clear text setting. 
 
@@ -19,14 +19,22 @@ The artifact used in this ePortfolio was obtained from a project in one of my cl
 
 [![Watch the video](https://img.youtube.com/vi/hMCQJC65fUY/maxresdefault.jpg)](https://youtu.be/hMCQJC65fUY)
 
-## About
+## Artifact Updates
 
-The stock-market project is a NodeJS web application that listens to clients for http requests and processes them to query or modify stock market data that is available in the database. The database used in this application is MongoDB. The framework used for this web application is ExpressJs.
+### Software design and Engineering.
 
-## Running the application
+This artifact was selected – specifically for the software design and engineering part of the capstone to highlight my ability to port a complex application to a new programming language. From a software design and engineering perspective, the artifact was improved by using the DeFacto programming language of the web – JavaScript instead of python. Some added benefits of this would be the ability to further enhance the ecosystem by using a complete JavaScript based stack such as MongoDB Express Angular NodeJS [MEAN], or MongoDB Express React NodeJS [MERN]. 
 
-One of the main external dependencies of this web application is a connection to a MongoDB database. The first iteration of this web application currently assumes that localhost:27017 offers connection to MongoDB. This will be enhanced in later versions to rely upon command line arguments or environmental variables as needed.
+#### Alignment with Course Objective.
+There are no added updates on the outcome coverage plans since with the porting process, I will be meeting the course aim. Specifically, the outcome of “design, develop, and deliver professional-quality oral, written, and visual communications that are coherent, technically sound, and appropriately adapted to specific audiences and contexts” shall be achieved with this artifact. 
 
-Assuming this dependency is met, here are the general steps to get the web application up and running:
-- `npm i` # install the node dependencies
-- `npm start` # start the web application and listen to the default port of 3000
+#### Enhancing and Modifying the Artifact.
+The enhancement and modification of the artifact was a rather rewarding process. While there were a few challenges, the learnings certainly outweighed some challenges that were faced. Some of the immediate learnings were as follows: 
+
+- [X] Use environment variables for configuration like PORT numbers
+- [X] Use a templating engine – Jade – already being used which would make creating web interfaces much less cumbersome compared to writing the html syntax.  
+- [X] Keep things asynchronous with callback functions
+
+There were, however, a few challenges that were eventually overcome: 
+- [X] Connecting to the database was relatively easy. However, the use of callback functions made it difficult to port the imperative style code in python to the callback driven approach on NodeJS. 
+- [X] The first structure of the project took a little bit of getting used to compared to the two files that I wrote by myself in python. The huge benefit of being able to navigate the project, however, is that it is a standard that most ExpressJS developers follow – making it easier for me to adapt to industry standard code. 
