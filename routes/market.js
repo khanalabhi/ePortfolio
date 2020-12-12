@@ -101,10 +101,6 @@ router.get('/moving_average_count', function (req, res, next) {
     res.render('moving_average_count');
 });
 
-router.get('/tickers_for_industry', function (req, res, next) {
-    res.render('tickers_for_industry');
-});
-
 router.post('/tickers_for_industry', function (req, res, next) {
     authService.preventUnauthorized(req, res, function (_) {
         repository.getTickersForIndustry(req.db, req.body.industry, function (err, tickers) {
@@ -117,9 +113,25 @@ router.post('/tickers_for_industry', function (req, res, next) {
     });
 });
 
+router.get('/tickers_for_industry', function (req, res, next) {
+    res.render('tickers_for_industry');
+});
+
 router.get('/shares_by_industry', function (req, res, next) {
-    repository.getSharesByIndustry(req.db, null, function (err, doc) {
-        res.render('index', { title: 'market#shares_by_industry' });
+    res.render('shares_by_industry');
+});
+
+router.post('/shares_by_industry', function (req, res, next) {
+    authService.preventUnauthorized(req, res, function (_) {
+        repository.getSharesByIndustry(req.db, req.body.sector, function (err, shares) {
+            if (err) {
+                res.render('shares_by_industry', { flash: { failure: true, message: 'Failed to get shares' } });
+                return;
+            }
+            res.render('shares_by_industry', {
+                flash: { success: true, message: `Successfully retrieved ${shares.length} shares` }, shares: shares
+            });
+        });
     });
 });
 

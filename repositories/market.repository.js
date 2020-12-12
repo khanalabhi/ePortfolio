@@ -34,8 +34,8 @@ const readDocument = function (db, lookup, callback) {
  */
 const getSimpleMovingAverageCount = function (db, low, high, callback) {
     db.collection('stock').countDocuments({
-        "50-Day Simple Moving Average":
-            { "$gte": parseFloat(low), "$lte": parseFloat(high) }
+        '50-Day Simple Moving Average':
+            { '$gte': parseFloat(low), '$lte': parseFloat(high) }
     }, function (err, cnt) {
         callback(err, cnt);
     });
@@ -62,7 +62,22 @@ const getTickersForIndustry = function (db, industry, callback) {
  * @param {*} callback 
  */
 const getSharesByIndustry = function (db, sector, callback) {
-    callback(null, null);
+    db.collection('stock').aggregate(
+        [
+            {
+                '$match':
+                    { 'Sector': { '$eq': sector } }
+            },
+            {
+                '$group':
+                {
+                    '_id': '$Industry',
+                    'outstanding': { '$sum': '$Shares Outstanding' }
+                }
+            }
+        ]).toArray(function (err, agg) {
+            callback(err, agg);
+        });
 }
 
 /**
@@ -74,7 +89,7 @@ const getSharesByIndustry = function (db, sector, callback) {
  * @param {*} callback 
  */
 const updateDocument = function (db, lookup, data, callback) {
-    db.collection('stock').updateOne(lookup, { "$set": data }, function (err, res) {
+    db.collection('stock').updateOne(lookup, { '$set': data }, function (err, res) {
         if (!err && res.modifiedCount == 0) {
             callback({ message: 'ticker not found' }, null);
             return;
@@ -84,7 +99,7 @@ const updateDocument = function (db, lookup, data, callback) {
 }
 
 /**
- * Update the "volume" of the "ticker" - provided "volume" > 0
+ * Update the 'volume' of the 'ticker' - provided 'volume' > 0
  * @param {*} db 
  * @param {*} ticker 
  * @param {*} volume 
@@ -95,7 +110,7 @@ const updateVolume = function (db, ticker, volume, callback) {
         callback({ message: 'invalid volume' });
         return;
     }
-    updateDocument(db, { "Ticker": ticker }, { "Relative Volume": volume }, callback);
+    updateDocument(db, { 'Ticker': ticker }, { 'Relative Volume': volume }, callback);
 }
 
 /**
