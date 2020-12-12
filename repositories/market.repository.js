@@ -33,7 +33,12 @@ const readDocument = function (db, lookup, callback) {
  * @param {*} callback 
  */
 const getSimpleMovingAverageCount = function (db, low, high, callback) {
-    callback(null, null);
+    db.collection('stock').countDocuments({
+        "50-Day Simple Moving Average":
+            { "$gte": parseFloat(low), "$lte": parseFloat(high) }
+    }, function (err, cnt) {
+        callback(err, cnt);
+    });
 }
 
 /**

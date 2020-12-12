@@ -85,10 +85,20 @@ router.get('/delete', function (req, res, next) {
     res.render('delete');
 });
 
-router.get('/moving_average_count', function (req, res, next) {
-    repository.getSimpleMovingAverageCount(req.db, null, null, function (err, doc) {
-        res.render('index', { title: 'market#moving_average_count' });
+router.post('/moving_average_count', function (req, res, next) {
+    authService.preventUnauthorized(req, res, function (_) {
+        repository.getSimpleMovingAverageCount(req.db, req.body.low, req.body.high, function (err, cnt) {
+            if (err) {
+                res.render('moving_average_count', { flash: { failure: true, message: 'Failed to get moving average count' } });
+                return;
+            }
+            res.render('moving_average_count', { cnt: cnt, flash: { success: true, message: 'Successfuly retrieved the moving average count ' } });
+        });
     });
+});
+
+router.get('/moving_average_count', function (req, res, next) {
+    res.render('moving_average_count');
 });
 
 router.get('/tickers_for_industry', function (req, res, next) {

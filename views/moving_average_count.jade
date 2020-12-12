@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+  if cnt !== null
+    div
+      h3 Moving Average Count: 
+      div.pre= cnt
+    hr
+
+  p Get the Moving Average Count
+  form.subtle(action="/market/moving_average_count", method="post")
+    div.input
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username")
+    div.input
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password")
+    div.input
+      span.label.input-label Low: 
+      input.standard-input(type="number" name="low", value=-0.05)
+    div.input
+      span.label.input-label High: 
+      input.standard-input(type="number" name="high", value=0.1)
+    br
+    div.actions
+      input.standard-input(type="submit", value="Query")
