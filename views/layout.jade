@@ -4,6 +4,13 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   div
+    if flash
+      if flash.success
+        div.p.success= flash.message
+      if flash.alert
+        div.p.alert= flash.message
+      if flash.failure
+        div.p.failure= flash.message
     div.p.jumbo Stock Market
     ul
       li

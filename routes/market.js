@@ -17,7 +17,7 @@ const displayStock = function (db, id, res) {
         if (err) {
             renderBadRequest(res);
         } else {
-            res.render('market_view', { createdStock: JSON.stringify(doc) });
+            res.render('market_view', { flash: { success: true, message: 'Created a new stock entry' }, createdStock: JSON.stringify(doc) });
         }
     });
 }
