@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+  p Upate the relative volume of a ticker
+  form.subtle(action="/market/update_volume", method="post")
+    div.input
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username", value="admin")
+    div.input
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password", value="adminpassword")
+    div.input
+      span.label.input-label Ticker Symbol: 
+      input.standard-input(type="text", name="ticker")
+    div.input
+      span.label.input-label Relative Volume: 
+      input.standard-input(type="number", name="volume")
+    br
+    div.actions
+      input.standard-input(type="submit", value="Update")

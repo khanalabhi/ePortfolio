@@ -82,12 +82,45 @@ const renderUnauthorized = function (res) {
 }
 
 /**
- * Render prohibited template
+ * Render forbidden template
  * @param {*} res 
  */
-const renderProhibited = function (res) {
+const renderForbidden = function (res) {
     res.status(403);
     res.render('error', { message: 'Forbidden', 'error': { status: 403 } });
+}
+
+/**
+ * Prevents aunauthorized acces handing error views
+ * @param {*} request 
+ * @param {*} response 
+ * @param {*} callback 
+ */
+const preventUnauthorized = function (request, response, callback) {
+    const credentials = extractInfo(request);
+    authenticated(credentials.username, credentials.password, function (user) {
+        if (!user) {
+            renderUnauthorized(response);
+        } else {
+            callback(user);
+        }
+    });
+}
+
+/**
+ * Prevents aunauthorized acces handing error views
+ * @param {*} request 
+ * @param {*} response 
+ * @param {*} callback 
+ */
+const preventForbidden = function (request, response, callback) {
+    preventUnauthorized(request, response, function (user) {
+        if (!user.admin) {
+            renderForbidden(response);
+        } else {
+            callback(user);
+        }
+    });
 }
 
 module.exports = {
@@ -95,5 +128,7 @@ module.exports = {
     authorized: authorized,
     extractInfo: extractInfo,
     renderUnauthorized: renderUnauthorized,
-    renderProhibited: renderProhibited,
+    renderForbidden: renderForbidden,
+    preventUnauthorized: preventUnauthorized,
+    preventForbidden: preventForbidden,
 }

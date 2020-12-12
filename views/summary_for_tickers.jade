@@ -1,0 +1,39 @@
+extends layout
+
+block content
+
+  p Get Summary for Tickers
+  form.subtle(action="/market/summary_for_tickers", method="post")
+    div.input
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username", value="regular")
+    div.input
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password", value="regularpassword")
+    div.input
+      span.label.input-label Tickers: 
+      input.standard-input(type="text" name="tickers", value="A, GOOG, FB")
+    div.actions
+      input.standard-input(type="submit", value="Query")
+
+  if summaries
+    ol
+      each summary in summaries
+        li.div
+          h4= summary.ticker
+          p
+            span $
+            span= summary.price 
+          p
+            span (
+            span= summary.low
+            span ,
+            span= summary.high
+            span )
+          p
+            span Volume:&nbsp;
+            span= summary.volume
+          p
+            span Analyst Recommendation:&nbsp;
+            span= summary.recom
+            

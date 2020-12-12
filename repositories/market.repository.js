@@ -33,7 +33,12 @@ const readDocument = function (db, lookup, callback) {
  * @param {*} callback 
  */
 const getSimpleMovingAverageCount = function (db, low, high, callback) {
-    callback(null, null);
+    db.collection('stock').countDocuments({
+        '50-Day Simple Moving Average':
+            { '$gte': parseFloat(low), '$lte': parseFloat(high) }
+    }, function (err, cnt) {
+        callback(err, cnt);
+    });
 }
 
 /**
@@ -43,7 +48,11 @@ const getSimpleMovingAverageCount = function (db, low, high, callback) {
  * @param {*} callback 
  */
 const getTickersForIndustry = function (db, industry, callback) {
-    callback(null, null);
+    db.collection('stock').find({ 'Industry': { '$eq': industry } }, { '_id': 0, 'Ticker': 1 }).toArray(function (err, docs) {
+        callback(err, docs.map(function (doc) {
+            return doc['Ticker'];
+        }));
+    });
 }
 
 /**
@@ -53,7 +62,22 @@ const getTickersForIndustry = function (db, industry, callback) {
  * @param {*} callback 
  */
 const getSharesByIndustry = function (db, sector, callback) {
-    callback(null, null);
+    db.collection('stock').aggregate(
+        [
+            {
+                '$match':
+                    { 'Sector': { '$eq': sector } }
+            },
+            {
+                '$group':
+                {
+                    '_id': '$Industry',
+                    'outstanding': { '$sum': '$Shares Outstanding' }
+                }
+            }
+        ]).toArray(function (err, agg) {
+            callback(err, agg);
+        });
 }
 
 /**
@@ -65,18 +89,28 @@ const getSharesByIndustry = function (db, sector, callback) {
  * @param {*} callback 
  */
 const updateDocument = function (db, lookup, data, callback) {
-    callback(null, null);
+    db.collection('stock').updateOne(lookup, { '$set': data }, function (err, res) {
+        if (!err && res.modifiedCount == 0) {
+            callback({ message: 'ticker not found' }, null);
+            return;
+        }
+        callback(err, res);
+    });
 }
 
 /**
- * Update the "volume" of the "ticker" - provided "volume" > 0
+ * Update the 'volume' of the 'ticker' - provided 'volume' > 0
  * @param {*} db 
  * @param {*} ticker 
  * @param {*} volume 
  * @param {*} callback 
  */
 const updateVolume = function (db, ticker, volume, callback) {
-    callback(null, null);
+    if (!volume || volume < 1) {
+        callback({ message: 'invalid volume' });
+        return;
+    }
+    updateDocument(db, { 'Ticker': ticker }, { 'Relative Volume': volume }, callback);
 }
 
 /**
@@ -86,7 +120,13 @@ const updateVolume = function (db, ticker, volume, callback) {
  * @param {*} callback 
  */
 const deleteDocument = function (db, lookup, callback) {
-    callback(null, null);
+    db.collection('stock').deleteOne(lookup, function (err, res) {
+        if (!err && res.result.n == 0) {
+            callback({ message: 'document not found' });
+            return;
+        }
+        callback(err, res);
+    });
 }
 
 /**
@@ -96,7 +136,7 @@ const deleteDocument = function (db, lookup, callback) {
  * @param {*} callback 
  */
 const deleteTicker = function (db, ticker, callback) {
-    callback(null, null);
+    deleteDocument(db, { Ticker: ticker }, callback);
 }
 
 /**
@@ -106,7 +146,20 @@ const deleteTicker = function (db, ticker, callback) {
  * @param {*} callback 
  */
 const summaryForTickers = function (db, tickers, callback) {
-    callback(null, null);
+    return db.collection('stock').find(
+        { 'Ticker': { '$in': tickers } }
+    ).toArray(function (err, summaries) {
+        callback(err, summaries.map(function (summary) {
+            return {
+                ticker: summary['Ticker'],
+                price: summary['Price'],
+                high: summary['50-Day High'],
+                low: summary['50-Day Low'],
+                volume: summary['Volume'],
+                recom: summary['Analyst Recom'],
+            }
+        }));
+    });
 }
 
 /**
@@ -116,7 +169,14 @@ const summaryForTickers = function (db, tickers, callback) {
  * @param {*} callback 
  */
 const topFiveStocks = function (db, industry, callback) {
-    callback(null, null);
+    db.collection('stock').aggregate([
+        { '$match': { 'Industry': { '$eq': industry } } },
+        { '$sort': { 'Price': -1 } },
+        { '$limit': 5 },
+        { '$project': { 'Ticker': 1, 'Price': 1, '_id': 0 } }])
+        .toArray(function (err, stocks) {
+            callback(err, stocks);
+        });
 }
 
 module.exports = {

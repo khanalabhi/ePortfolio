@@ -1,0 +1,26 @@
+extends layout
+
+block content
+
+  p Get Shares by Industry
+  form.subtle(action="/market/shares_by_industry", method="post")
+    div.input
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username", value="regular")
+    div.input
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password", value="regularpassword")
+    div.input
+      span.label.input-label Sector: 
+      input.standard-input(type="text" name="sector", value="Healthcare")
+    div.actions
+      input.standard-input(type="submit", value="Query")
+
+  if shares
+    ol
+      each share in shares
+        li.div
+          h4= share._id
+          p
+            span Total Outstanding Shares&nbsp; 
+            span= share.outstanding

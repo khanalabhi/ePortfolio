@@ -4,8 +4,23 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   div
+    if flash
+      if flash.success
+        div.p.success= flash.message
+      if flash.alert
+        div.p.alert= flash.message
+      if flash.failure
+        div.p.failure= flash.message
+    div.p.jumbo Stock Market
     ul
       li
         a(href="create") Create
+        a(href="update_volume") Update Volume
+        a(href="delete") Delete Stock
+        a(href="moving_average_count") Moving Average Count
+        a(href="tickers_for_industry") Tickers for Industry 
+        a(href="shares_by_industry") Shares by Industry
+        a(href="summary_for_tickers") Summary for Tickers
+        a(href="top_five_stocks") Top Five Stocks
   body
     block content
