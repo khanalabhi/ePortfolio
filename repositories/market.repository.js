@@ -146,7 +146,20 @@ const deleteTicker = function (db, ticker, callback) {
  * @param {*} callback 
  */
 const summaryForTickers = function (db, tickers, callback) {
-    callback(null, null);
+    return db.collection('stock').find(
+        { 'Ticker': { '$in': tickers } }
+    ).toArray(function (err, summaries) {
+        callback(err, summaries.map(function (summary) {
+            return {
+                ticker: summary['Ticker'],
+                price: summary['Price'],
+                high: summary['50-Day High'],
+                low: summary['50-Day Low'],
+                volume: summary['Volume'],
+                recom: summary['Analyst Recom'],
+            }
+        }));
+    });
 }
 
 /**
@@ -156,7 +169,14 @@ const summaryForTickers = function (db, tickers, callback) {
  * @param {*} callback 
  */
 const topFiveStocks = function (db, industry, callback) {
-    callback(null, null);
+    return db.collection('stock').aggregate([
+        { '$match': { 'Industry': { '$eq': industry } } },
+        { '$sort': { 'Price': -1 } },
+        { '$limit': 5 },
+        { '$project': { 'Ticker': 1, 'Price': 1, '_id': 0 } }])
+        .toArray(function (err, tickers) {
+
+        });
 }
 
 module.exports = {

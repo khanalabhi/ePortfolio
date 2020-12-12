@@ -135,16 +135,32 @@ router.post('/shares_by_industry', function (req, res, next) {
     });
 });
 
+router.post('/summary_for_tickers', function (req, res, next) {
+    authService.preventUnauthorized(req, res, function (_) {
+        repository.summaryForTickers(req.db, req.body.tickers.split(',').map(function (ticker) { return ticker.trim() }), function (err, summaries) {
+            if (err) {
+                res.render('summary_for_tickers', { flash: { failure: true, message: 'Failed to get summaries' } });
+                return;
+            }
+            res.render('summary_for_tickers', {
+                flash: { success: true, message: `Successfully retrieved ${summaries.length} summaries` }, summaries: summaries
+            });
+        });
+    });
+});
+
 router.get('/summary_for_tickers', function (req, res, next) {
-    repository.summaryForTickers(req.db, null, function (err, doc) {
-        res.render('index', { title: 'market#summary_for_tickers' });
+    res.render('summary_for_tickers');
+});
+
+router.post('/top_five_stocks', function (req, res, next) {
+    repository.topFiveStocks(req.db, null, function (err, doc) {
+        res.render('top_five_stocks');
     });
 });
 
 router.get('/top_five_stocks', function (req, res, next) {
-    repository.topFiveStocks(req.db, null, function (err, doc) {
-        res.render('index', { title: 'market#top_five_stocks' });
-    });
+    res.render('top_five_stocks');
 });
 
 module.exports = router;
