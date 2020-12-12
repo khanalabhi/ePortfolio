@@ -154,8 +154,16 @@ router.get('/summary_for_tickers', function (req, res, next) {
 });
 
 router.post('/top_five_stocks', function (req, res, next) {
-    repository.topFiveStocks(req.db, null, function (err, doc) {
-        res.render('top_five_stocks');
+    authService.preventUnauthorized(req, res, function (_) {
+        repository.topFiveStocks(req.db, req.body.industry, function (err, stocks) {
+            if (err) {
+                res.render('top_five_stocks', { flash: { failure: true, message: 'Failed to get stocks for the given idustry' } });
+                return;
+            }
+            res.render('top_five_stocks', {
+                flash: { success: true, message: `Successfully retrieved top ${stocks.length} stocks` }, stocks: stocks
+            });
+        });
     });
 });
 

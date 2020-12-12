@@ -169,13 +169,13 @@ const summaryForTickers = function (db, tickers, callback) {
  * @param {*} callback 
  */
 const topFiveStocks = function (db, industry, callback) {
-    return db.collection('stock').aggregate([
+    db.collection('stock').aggregate([
         { '$match': { 'Industry': { '$eq': industry } } },
         { '$sort': { 'Price': -1 } },
         { '$limit': 5 },
         { '$project': { 'Ticker': 1, 'Price': 1, '_id': 0 } }])
-        .toArray(function (err, tickers) {
-
+        .toArray(function (err, stocks) {
+            callback(err, stocks);
         });
 }
 

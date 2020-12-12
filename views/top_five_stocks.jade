@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+  p Top Five Stocks
+  form.subtle(action="/market/top_five_stocks", method="post")
+    div.input
+      span.label.input-label Username: 
+      input.standard-input(type="text", name="username", value="regular")
+    div.input
+      span.label.input-label Password: 
+      input.standard-input(type="password", name="password", value="regularpassword")
+    div.input
+      span.label.input-label Industry: 
+      input.standard-input(type="text" name="industry", value="Medical Laboratories & Research")
+    div.actions
+      input.standard-input(type="submit", value="Query")
+
+  if stocks
+    ol
+      each stock in stocks
+        li.div
+          h4= stock.Ticker
+          p
+            span $
+            span= stock.Price
+            
