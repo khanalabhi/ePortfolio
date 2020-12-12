@@ -104,9 +104,9 @@ There are no added updates on the outcome coverage plans since making the enhanc
 
 ### Enhancing and Modifying the Artifact.
 As mentioned above, the first thing that I needed to do was to get the data from the old project, which was on CODIO, loaded on a local MongoDB instance. Furthermore, it would be beneficial to add a straightforward way to import the data for anyone wanting to try it. Next, the shell repository that did not do anything needed to be wired with the actual database as well. Finally, a user interface needed to be added as well. There were a lot of things I learned from this process. 
-[x] - Use `mongoimport` tool to importing json files to MongoDB databases
-[x] - Investigate the use of async await API. Decided not to use it to be more compatible with older version of node 
-[x] - Use jade heirarchy to minimize repeated UI code
+- [x] Use `mongoimport` tool to importing json files to MongoDB databases
+- [x] Investigate the use of async await API. Decided not to use it to be more compatible with older version of node 
+- [x] Use jade heirarchy to minimize repeated UI code
 
 There were a few challenges as well. Specifically, around not overdoing what I had scoped out for the final project.
 - While the MongoDB driver was a lot more natural, it was surprising to see that the functions were not named the same between MongoDB and pymongo
