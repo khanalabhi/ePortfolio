@@ -27,32 +27,24 @@ router.get('/create', function (req, res, next) {
 });
 
 router.post('/create', function (req, res, next) {
-    const credentials = authService.extractInfo(req);
-    authService.authenticated(credentials.username, credentials.password, function (user) {
-        if (!user) {
-            authService.renderUnauthorized(res);
-        } else {
-            if (!user.admin) {
-                authService.renderProhibited(res);
-            } else {
-                try {
-                    let stockData = JSON.parse(req.body.stock_data);
-                } catch (_) {
-                    renderBadRequest(res, 'Invalid JSON formatting for stock data');
-                    return;
-                }
-                if (stockData) {
-                    repository.createDocument(req.db, stockData, function (err, doc) {
-                        if (err) {
-                            renderBadRequest(res, 'Could not create the stock');
-                        } else {
-                            displayStock(req.db, doc['ops'][0]['_id'], res);
-                        }
-                    });
+    authService.preventForbidden(req, res, function (_) {
+        let stockData = {};
+        try {
+            stockData = JSON.parse(req.body.stock_data);
+        } catch (_) {
+            renderBadRequest(res, 'Invalid JSON formatting for stock data');
+            return;
+        }
+        if (stockData) {
+            repository.createDocument(req.db, stockData, function (err, doc) {
+                if (err) {
+                    renderBadRequest(res, 'Could not create the stock');
                 } else {
-                    renderBadRequest(res);
+                    displayStock(req.db, doc['ops'][0]['_id'], res);
                 }
-            }
+            });
+        } else {
+            renderBadRequest(res);
         }
     });
 });
@@ -62,34 +54,35 @@ router.get('/update_volume', function (req, res, next) {
 });
 
 router.post('/update_volume', function (req, res, next) {
-    const credentials = authService.extractInfo(req);
-    authService.authenticated(credentials.username, credentials.password, function (user) {
-        if (!user) {
-            authService.renderUnauthorized(res);
-        } else {
-            if (!user.admin) {
-                authService.renderProhibited(res);
+    authService.preventForbidden(req, res, function (_) {
+        repository.updateVolume(req.db, req.body.ticker, req.body.volume, function (err, doc) {
+            let flash = {};
+            if (err) {
+                flash.failure = true;
+                flash.message = 'Failed to update volume';
             } else {
-                repository.updateVolume(req.db, req.body.ticker, req.body.volume, function (err, doc) {
-                    let flash = {};
-                    if (err) {
-                        flash.failure = true;
-                        flash.message = 'Failed to update volume';
-                    } else {
-                        flash.success = true;
-                        flash.message = 'Updated the volume';
-                    }
-                    res.render('update_volume', { err: err, flash: flash });
-                });
+                flash.success = true;
+                flash.message = 'Updated the volume';
             }
-        }
+            res.render('update_volume', { err: err, flash: flash });
+        });
+    });
+});
+
+router.post('/delete', function (req, res, next) {
+    authService.preventForbidden(req, res, function (_) {
+        repository.deleteDocument(req.db, null, function (err, doc) {
+            if (err) {
+                res.render('delete', { flash: { failure: true, message: 'Could not delete stock' } });
+            } else {
+                res.render('delete', { flash: { success: true, message: 'Successfully deleted stock ' } });
+            }
+        });
     });
 });
 
 router.get('/delete', function (req, res, next) {
-    repository.deleteDocument(req.db, null, function (err, doc) {
-        res.render('index', { title: 'market#delete' });
-    });
+    res.render('delete', { flash: { failure: true, message: 'Could not delete stock' } });
 });
 
 router.get('/moving_average_count', function (req, res, next) {
