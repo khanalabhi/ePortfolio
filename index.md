@@ -29,13 +29,13 @@ There are no added updates on the outcome coverage plans since with the porting 
 #### Enhancing and Modifying the Artifact.
 The enhancement and modification of the artifact was a rather rewarding process. While there were a few challenges, the learnings certainly outweighed some challenges that were faced. Some of the immediate learnings were as follows: 
 
-- [X] Use environment variables for configuration like PORT numbers
-- [X] Use a templating engine – Jade – already being used which would make creating web interfaces much less cumbersome compared to writing the html syntax.  
-- [X] Keep things asynchronous with callback functions
+- [x] Use environment variables for configuration like PORT numbers
+- [x] Use a templating engine – Jade – already being used which would make creating web interfaces much less cumbersome compared to writing the html syntax.  
+- [x] Keep things asynchronous with callback functions
 
 There were, however, a few challenges that were eventually overcome: 
-- [X] Connecting to the database was relatively easy. However, the use of callback functions made it difficult to port the imperative style code in python to the callback driven approach on NodeJS. 
-- [X] The first structure of the project took a little bit of getting used to compared to the two files that I wrote by myself in python. The huge benefit of being able to navigate the project, however, is that it is a standard that most ExpressJS developers follow – making it easier for me to adapt to industry standard code like shown below.
+- [x] Connecting to the database was relatively easy. However, the use of callback functions made it difficult to port the imperative style code in python to the callback driven approach on NodeJS. 
+- [x] The first structure of the project took a little bit of getting used to compared to the two files that I wrote by myself in python. The huge benefit of being able to navigate the project, however, is that it is a standard that most ExpressJS developers follow – making it easier for me to adapt to industry standard code like shown below.
 
 ```js
 MongoClient.connect('mongodb://localhost:27017', function (err, client) {
@@ -95,3 +95,21 @@ process.on('SIGINT', function () {
 });
 ```
 - [] In a production environment use TLS for security
+
+### Database.
+This artifact was selected – specifically for the database part of the capstone to highlight my ability to use well-founded and innovative techniques around database. From a database perspective, the artifact was improved by firstly implementing the database driver for MongoDB in its native JavaScript interface. Next, instead of relying on command line curl scripts to interact with the web application, html interface was also added to the web application. 
+
+#### Alignment with Course Objective.
+There are no added updates on the outcome coverage plans since making the enhancements discussed in the code review and summarized above captures everything needed from a course goal standpoint. Specifically, the course goal of “Demonstrate an ability to use well-founded and innovative techniques, skills, and tools in computing practices for the purpose of implementing computer solutions that deliver value and accomplish industry-specific goals” will be showed with the changes to the artifact. 
+
+### Enhancing and Modifying the Artifact.
+As mentioned above, the first thing that I needed to do was to get the data from the old project, which was on CODIO, loaded on a local MongoDB instance. Furthermore, it would be beneficial to add a straightforward way to import the data for anyone wanting to try it. Next, the shell repository that did not do anything needed to be wired with the actual database as well. Finally, a user interface needed to be added as well. There were a lot of things I learned from this process. 
+[x] - Use `mongoimport` tool to importing json files to MongoDB databases
+[x] - Investigate the use of async await API. Decided not to use it to be more compatible with older version of node 
+[x] - Use jade heirarchy to minimize repeated UI code
+
+There were a few challenges as well. Specifically, around not overdoing what I had scoped out for the final project.
+- While the MongoDB driver was a lot more natural, it was surprising to see that the functions were not named the same between MongoDB and pymongo
+- Callback functions made error handling more difficult as well
+- While Jade was amazing, it was yet another new thing to learn – which took some time
+- I had hoped to basically get the final project scope completed by now but that was a little too ambitious
