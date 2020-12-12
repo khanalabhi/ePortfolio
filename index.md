@@ -1,7 +1,8 @@
 ePortfolio
 ============
 
-![Abhi Khanal](photo.jpeg)
+![Abhi Khanal](assets/photo.jpeg)
+#### Abhi Khanal
 
 ## Professional Self Assesment
 
@@ -115,3 +116,10 @@ There were a few challenges as well. Specifically, around not overdoing what I h
 - Callback functions made error handling more difficult as well
 - While Jade was amazing, it was yet another new thing to learn – which took some time
 - I had hoped to basically get the final project scope completed by now but that was a little too ambitious
+
+## End Result
+Here are some samples from the artifact!
+
+![Top Five Stocks](assets/top_five_stocks.png)
+![Delete](assets/delete_stock.png)
+![Forbidden](assets/forbidden.png)
